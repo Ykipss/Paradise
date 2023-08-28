@@ -116,11 +116,7 @@
 
 /datum/chemical_reaction/slimemobspawn/proc/summon_mobs(datum/reagents/holder, turf/T)
 	T.visible_message("<span class='danger'>The slime extract begins to vibrate violently!</span>")
-	if(SSmobs.xenobiology_mobs < MAX_GOLD_CORE_MOBS)
-		addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 5, "Gold Slime", HOSTILE_SPAWN, "chemicalsummon", TRUE, TRUE), 50)
-		SSmobs.xenobiology_mobs += 5
-	else
-		T.visible_message("<span class='danger'>The slime extract sputters out, there's too many mobs to make any more!</span>")
+	addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 5, "Gold Slime", HOSTILE_SPAWN), 50)
 
 /datum/chemical_reaction/slimemobspawn/lesser
 	name = "Slime Crit Lesser"
@@ -129,11 +125,7 @@
 
 /datum/chemical_reaction/slimemobspawn/lesser/summon_mobs(datum/reagents/holder, turf/T)
 	T.visible_message("<span class='danger'>The slime extract begins to vibrate violently!</span>")
-	if(SSmobs.xenobiology_mobs < MAX_GOLD_CORE_MOBS)
-		addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 3, "Lesser Gold Slime", HOSTILE_SPAWN, "neutral", TRUE, TRUE), 50)
-		SSmobs.xenobiology_mobs += 3
-	else
-		T.visible_message("<span class='danger'>The slime extract sputters out, there's too many mobs to make any more!</span>")
+	addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 3, "Lesser Gold Slime", HOSTILE_SPAWN, "neutral"), 50)
 
 /datum/chemical_reaction/slimemobspawn/friendly
 	name = "Slime Crit Friendly"
@@ -142,11 +134,7 @@
 
 /datum/chemical_reaction/slimemobspawn/friendly/summon_mobs(datum/reagents/holder, turf/T)
 	T.visible_message("<span class='danger'>The slime extract begins to vibrate adorably!</span>")
-	if(SSmobs.xenobiology_mobs < MAX_GOLD_CORE_MOBS)
-		addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 1, "Friendly Gold Slime", FRIENDLY_SPAWN, "neutral", TRUE, TRUE), 50)
-		SSmobs.xenobiology_mobs += 1
-	else
-		T.visible_message("<span class='danger'>The slime extract sputters out, there's too many mobs to make any more!</span>")
+	addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 1, "Friendly Gold Slime", FRIENDLY_SPAWN, "neutral"), 50)
 
 //Silver
 /datum/chemical_reaction/slimebork

@@ -489,7 +489,9 @@
 /area/awaymission/wwmines)
 "bH" = (
 /obj/structure/closet{
-	icon_state = "cabinet"
+	icon_closed = "cabinet_closed";
+	icon_opened = "cabinet_open";
+	icon_state = "cabinet_closed"
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/wwmines)
@@ -1967,7 +1969,9 @@
 /area/awaymission/wwgov)
 "fz" = (
 /obj/structure/closet{
-	icon_state = "cabinet"
+	icon_closed = "cabinet_closed";
+	icon_opened = "cabinet_open";
+	icon_state = "cabinet_closed"
 	},
 /obj/machinery/light/small{
 	dir = 1;

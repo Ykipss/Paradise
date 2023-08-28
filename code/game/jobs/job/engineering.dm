@@ -21,7 +21,6 @@
 	min_age_allowed = 30
 	exp_requirements = 3000
 	exp_type = EXP_TYPE_ENGINEERING
-	money_factor = 7
 	outfit = /datum/outfit/job/chief_engineer
 
 /datum/outfit/job/chief_engineer
@@ -64,7 +63,6 @@
 	minimal_player_age = 7
 	exp_requirements = 600
 	exp_type = EXP_TYPE_ENGINEERING
-	money_factor = 3
 	outfit = /datum/outfit/job/engineer
 
 /datum/outfit/job/engineer
@@ -100,7 +98,6 @@
 	exp_max	= 600
 	exp_type_max = EXP_TYPE_ENGINEERING
 	is_novice = TRUE
-	money_factor = 2
 	outfit = /datum/outfit/job/engineer/trainee
 
 /datum/outfit/job/engineer/trainee
@@ -149,7 +146,6 @@
 	minimal_player_age = 7
 	exp_requirements = 900
 	exp_type = EXP_TYPE_ENGINEERING
-	money_factor = 4
 	outfit = /datum/outfit/job/atmos
 
 /datum/outfit/job/atmos
@@ -183,7 +179,6 @@
 	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_EMERGENCY_STORAGE, ACCESS_MECHANIC, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MINERAL_STOREROOM)
 	exp_requirements = 900
 	exp_type = EXP_TYPE_ENGINEERING
-	money_factor = 3
 	outfit = /datum/outfit/job/mechanic
 
 /datum/outfit/job/mechanic

@@ -22,7 +22,6 @@
 	exp_requirements = 3000
 	exp_type = EXP_TYPE_SECURITY
 	disabilities_allowed = 0
-	money_factor = 7
 	outfit = /datum/outfit/job/hos
 
 /datum/outfit/job/hos
@@ -71,7 +70,6 @@
 	min_age_allowed = 30
 	exp_requirements = 2100
 	exp_type = EXP_TYPE_SECURITY
-	money_factor = 6
 	outfit = /datum/outfit/job/warden
 
 /datum/outfit/job/warden
@@ -119,7 +117,6 @@
 	minimal_player_age = 14
 	exp_requirements = 1200
 	exp_type = EXP_TYPE_SECURITY
-	money_factor = 4
 	outfit = /datum/outfit/job/detective
 
 /datum/outfit/job/detective
@@ -180,7 +177,6 @@
 	minimal_player_age = 14
 	exp_requirements = 600
 	exp_type = EXP_TYPE_SECURITY
-	money_factor = 3
 	outfit = /datum/outfit/job/officer
 
 /datum/outfit/job/officer
@@ -219,7 +215,6 @@
 	exp_max	= 600
 	exp_type_max = EXP_TYPE_SECURITY
 	is_novice = TRUE
-	money_factor = 2
 	outfit = /datum/outfit/job/officer/cadet
 
 /datum/outfit/job/officer/cadet
@@ -260,7 +255,6 @@
 	minimal_access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_COURT, ACCESS_MAINT_TUNNELS)
 	exp_requirements = 1800
 	exp_type = EXP_TYPE_MEDICAL
-	money_factor = 4
 	outfit = /datum/outfit/job/brigdoc
 
 /datum/outfit/job/brigdoc
@@ -297,7 +291,6 @@
 	minimal_player_age = 7
 	exp_requirements = 1200
 	exp_type = EXP_TYPE_SECURITY
-	money_factor = 4
 	outfit = /datum/outfit/job/pilot
 
 /datum/outfit/job/pilot

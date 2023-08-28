@@ -2,9 +2,7 @@ SUBSYSTEM_DEF(events)
 	name = "Events"
 	init_order = INIT_ORDER_EVENTS
 	runlevels = RUNLEVEL_GAME
-	flags = SS_KEEP_TIMING
 	offline_implications = "Random events will no longer happen. No immediate action is needed."
-	cpu_display = SS_CPUDISPLAY_LOW
 	// Report events at the end of the rouund
 	var/report_at_round_end = 0
 
@@ -30,10 +28,9 @@ SUBSYSTEM_DEF(events)
 
 	var/datum/event_meta/new_event = new
 
-
 /datum/controller/subsystem/events/Initialize()
 	allEvents = subtypesof(/datum/event)
-
+	return ..()
 
 /datum/controller/subsystem/events/fire()
 	for(var/datum/event/E in active_events)

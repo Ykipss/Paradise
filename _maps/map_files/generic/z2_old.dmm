@@ -2150,7 +2150,9 @@
 /obj/item/ammo_box/magazine/m45,
 /obj/item/ammo_box/magazine/m45,
 /obj/structure/closet{
-	icon_state = "cabinet";
+	icon_closed = "cabinet_closed";
+	icon_opened = "cabinet_open";
+	icon_state = "cabinet_closed";
 	req_access = list(114)
 	},
 /obj/item/clothing/head/helmet/space/deathsquad/beret,
@@ -14991,7 +14993,8 @@
 "lfx" = (
 /obj/structure/closet/secure_closet/freezer/meat{
 	broken = 1;
-	icon_state = "fridge";
+	icon_off = "fridgebroken";
+	icon_state = "fridgebroken";
 	locked = 0
 	},
 /obj/item/reagent_containers/food/snacks/meat/meatwheat,
@@ -18245,7 +18248,9 @@
 	name = "Cosmonaut Command Helmet"
 	},
 /obj/structure/closet{
-	icon_state = "cabinet"
+	icon_closed = "cabinet_closed";
+	icon_opened = "cabinet_open";
+	icon_state = "cabinet_closed"
 	},
 /obj/item/clothing/suit/space/syndicate/blue{
 	desc = "This spacesuit is emblazoned with the emblem of the USSP. Glory to Space Russia!";
@@ -18641,7 +18646,9 @@
 	},
 /obj/item/clothing/head/helmet/space/syndicate/orange,
 /obj/structure/closet{
-	icon_state = "cabinet"
+	icon_closed = "cabinet_closed";
+	icon_opened = "cabinet_open";
+	icon_state = "cabinet_closed"
 	},
 /obj/item/clothing/suit/space/syndicate/orange{
 	desc = "This spacesuit is emblazoned with the emblem of the USSP. Glory to Space Russia!";
@@ -22034,7 +22041,9 @@
 	},
 /obj/item/clothing/head/helmet/space/syndicate/orange,
 /obj/structure/closet{
-	icon_state = "cabinet"
+	icon_closed = "cabinet_closed";
+	icon_opened = "cabinet_open";
+	icon_state = "cabinet_closed"
 	},
 /obj/item/clothing/suit/space/syndicate/orange{
 	desc = "This spacesuit is emblazoned with the emblem of the USSP. Glory to Space Russia!";
@@ -23964,7 +23973,9 @@
 /area/centcom/specops)
 "rqj" = (
 /obj/structure/closet{
-	icon_state = "syndicate"
+	icon_closed = "syndicate1";
+	icon_opened = "syndicate1open";
+	icon_state = "syndicate1"
 	},
 /obj/item/suppressor,
 /obj/item/gun/projectile/automatic/proto{
@@ -24068,7 +24079,9 @@
 /area/space)
 "rrE" = (
 /obj/structure/closet{
-	icon_state = "cabinet"
+	icon_closed = "cabinet_closed";
+	icon_opened = "cabinet_open";
+	icon_state = "cabinet_closed"
 	},
 /obj/item/clothing/under/color/lightpurple,
 /obj/item/clothing/under/color/purple,
@@ -26960,7 +26973,9 @@
 /area/centcom/zone3)
 "tnx" = (
 /obj/structure/closet{
-	icon_state = "cabinet";
+	icon_closed = "cabinet_closed";
+	icon_opened = "cabinet_open";
+	icon_state = "cabinet_closed";
 	req_access = list(114)
 	},
 /turf/simulated/floor/indestructible{

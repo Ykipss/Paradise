@@ -14,7 +14,8 @@
 /obj/effect/proc_holder/spell/morph_spell/reproduce/proc/update_name()
 	if(hunger_cost && action)
 		name = "[initial(name)] ([hunger_cost])"
-		updateButtonIcon(change_name = TRUE)
+		if(action)
+			action.name = name
 
 
 /obj/effect/proc_holder/spell/morph_spell/reproduce/create_new_targeting()
@@ -47,9 +48,8 @@
 	var/mob/C = pick(candidates)
 	user.use_food(hunger_cost)
 	hunger_cost += 30
-	var/datum/spell_handler/morph/handler = custom_handler
-	handler.hunger_cost += 30
 	update_name()
+	user.update_action_buttons_icon()
 
 	playsound(user, "bonebreak", 75, TRUE)
 	var/mob/living/simple_animal/hostile/morph/new_morph = new /mob/living/simple_animal/hostile/morph(get_turf(user))

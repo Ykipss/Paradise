@@ -1133,7 +1133,11 @@
 /obj/structure/closet/secure_closet{
 	broken = 1;
 	density = 0;
-	icon_state = "eng";
+	icon_closed = "secureeng";
+	icon_locked = "secureeng1";
+	icon_off = "secureengoff";
+	icon_opened = "secureengopen";
+	icon_state = "secureengopen";
 	initialized = 1;
 	locked = 0;
 	opened = 1
@@ -4586,7 +4590,11 @@
 /obj/structure/closet/secure_closet{
 	broken = 1;
 	density = 0;
-	icon_state = "eng";
+	icon_closed = "secureeng";
+	icon_locked = "secureeng1";
+	icon_off = "secureengoff";
+	icon_opened = "secureengopen";
+	icon_state = "secureengopen";
 	initialized = 1;
 	locked = 0;
 	opened = 1
@@ -6161,7 +6169,8 @@
 "rE" = (
 /obj/structure/closet{
 	density = 0;
-	custom_door_overlay = "yellow";
+	icon_closed = "yellow";
+	icon_state = "open";
 	initialized = 1;
 	name = "Engineering gear";
 	opened = 1
@@ -6791,7 +6800,11 @@
 /obj/structure/closet/secure_closet{
 	broken = 1;
 	density = 0;
-	icon_state = "eng";
+	icon_closed = "secureeng";
+	icon_locked = "secureeng1";
+	icon_off = "secureengoff";
+	icon_opened = "secureengopen";
+	icon_state = "secureengopen";
 	initialized = 1;
 	locked = 0;
 	opened = 1
@@ -8409,7 +8422,8 @@
 "xx" = (
 /obj/structure/closet{
 	density = 0;
-	custom_door_overlay = "yellow";
+	icon_closed = "yellow";
+	icon_state = "open";
 	initialized = 1;
 	name = "Engineering gear";
 	opened = 1
@@ -8697,7 +8711,11 @@
 /obj/structure/closet/secure_closet{
 	broken = 1;
 	density = 0;
-	icon_state = "eng";
+	icon_closed = "secureeng";
+	icon_locked = "secureeng1";
+	icon_off = "secureengoff";
+	icon_opened = "secureengopen";
+	icon_state = "secureengopen";
 	initialized = 1;
 	locked = 0;
 	opened = 1
@@ -10393,7 +10411,11 @@
 /obj/structure/closet/secure_closet{
 	broken = 1;
 	density = 0;
-	icon_state = "eng";
+	icon_closed = "secureeng";
+	icon_locked = "secureeng1";
+	icon_off = "secureengoff";
+	icon_opened = "secureengopen";
+	icon_state = "secureengopen";
 	initialized = 1;
 	locked = 0;
 	opened = 1
@@ -11069,7 +11091,8 @@
 /area/awaymission/spacebattle/syndicate1)
 "EI" = (
 /obj/structure/closet{
-	custom_door_overlay = "red";
+	icon_closed = "red";
+	icon_state = "red";
 	name = "Sec. gear"
 	},
 /obj/item/clothing/under/retro/security,
@@ -12690,7 +12713,8 @@
 /area/awaymission/spacebattle/prhallway3)
 "Jl" = (
 /obj/structure/closet{
-	custom_door_overlay = "red";
+	icon_closed = "red";
+	icon_state = "red";
 	name = "Sec. gear"
 	},
 /obj/item/clothing/suit/space/hardsuit/security,
@@ -17931,7 +17955,8 @@
 "Xz" = (
 /obj/structure/closet{
 	density = 0;
-	custom_door_overlay = "yellow";
+	icon_closed = "yellow";
+	icon_state = "open";
 	initialized = 1;
 	name = "Engineering gear";
 	opened = 1

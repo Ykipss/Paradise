@@ -6,8 +6,6 @@
 	required_players = 10
 	required_enemies = 1	// how many of each type are required
 	recommended_enemies = 3
-	var/list/datum/mind/pre_thieves = list()
-
 
 /datum/game_mode/traitor/thief/announce()
 	to_chat(world, "<B>The current game mode is - Traitor+Thief!</B>")
@@ -20,18 +18,18 @@
 
 	var/list/datum/mind/possible_thieves = get_players_for_role(ROLE_THIEF)
 
-	if(length(possible_thieves))
+	if(possible_thieves.len > 0)
 		var/datum/mind/thief = pick(possible_thieves)
-		pre_thieves += thief
+		thieves += thief
+		modePlayer += thieves
 		thief.restricted_roles = restricted_jobs
 		thief.special_role = SPECIAL_ROLE_THIEF
 		return ..()
 	else
-		return FALSE
-
+		return 0
 
 /datum/game_mode/traitor/thief/post_setup()
-	for(var/datum/mind/thief in pre_thieves)
-		thief.add_antag_datum(/datum/antagonist/thief)
+	for(var/datum/mind/thief in thieves)
+		thief.make_Thief()
 	..()
-
+	return

@@ -108,7 +108,7 @@
 				pods += P
 				P.connected = src
 				P.name = "[initial(P.name)] #[pods.len]"
-				to_chat(user, span_notice("You connect [P] to [src]."))
+				to_chat(user, "<span class='notice'>You connect [P] to [src].</span>")
 	else
 		return ..()
 

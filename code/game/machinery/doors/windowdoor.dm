@@ -55,9 +55,9 @@
 /obj/machinery/door/window/examine(mob/user)
 	. = ..()
 	if(emagged)
-		. += span_warning("Its access panel is smoking slightly.")
+		. += "<span class='warning'>Its access panel is smoking slightly.</span>"
 	if(HAS_TRAIT(src, TRAIT_CMAGGED))
-		. += span_warning("The access panel is coated in yellow ooze...")
+		. += "<span class='warning'>The access panel is coated in yellow ooze...</span>"
 
 /obj/machinery/door/window/emp_act(severity)
 	. = ..()
@@ -275,12 +275,12 @@
 		return
 	. = TRUE
 	if(density || operating)
-		to_chat(user, span_warning("You need to open the door to access the maintenance panel!"))
+		to_chat(user, "<span class='warning'>You need to open the door to access the maintenance panel!</span>")
 		return
 	if(!I.use_tool(src, user, 0, volume = I.tool_volume))
 		return
 	panel_open = !panel_open
-	to_chat(user, span_notice("You [panel_open ? "open":"close"] the maintenance panel of the [src.name]."))
+	to_chat(user, "<span class='notice'>You [panel_open ? "open":"close"] the maintenance panel of the [src.name].</span>")
 
 
 /obj/machinery/door/window/crowbar_act(mob/user, obj/item/I)
@@ -292,7 +292,7 @@
 	if(!I.tool_use_check(user, 0))
 		return
 	if(panel_open && !density && !operating)
-		user.visible_message(span_warning("[user] removes the electronics from the [name]."), \
+		user.visible_message("<span class='warning'>[user] removes the electronics from the [name].</span>", \
 							 "You start to remove electronics from the [name]...")
 		if(I.use_tool(src, user, 40, volume = I.tool_volume))
 			if(panel_open && !density && !operating && loc)
@@ -316,11 +316,11 @@
 				WA.created_name = name
 
 				if(emagged)
-					to_chat(user, span_warning("You discard the damaged electronics."))
+					to_chat(user, "<span class='warning'>You discard the damaged electronics.</span>")
 					qdel(src)
 					return
 
-				to_chat(user, span_notice("You remove the airlock electronics."))
+				to_chat(user, "<span class='notice'>You remove the airlock electronics.</span>")
 
 				var/obj/item/airlock_electronics/ae
 				if(!electronics)
@@ -345,7 +345,7 @@
 		else
 			close(2)
 	else
-		to_chat(user, span_warning("The door's motors resist your efforts to force it!"))
+		to_chat(user, "<span class='warning'>The door's motors resist your efforts to force it!</span>")
 
 /obj/machinery/door/window/do_animate(animation)
 	switch(animation)

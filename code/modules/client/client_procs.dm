@@ -449,7 +449,6 @@
 	return ..()
 
 /client/Destroy()
-	SSdebugview.stop_processing(src)
 	if(holder)
 		holder.owner = null
 		GLOB.admins -= src

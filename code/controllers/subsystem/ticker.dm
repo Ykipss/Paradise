@@ -6,14 +6,11 @@ SUBSYSTEM_DEF(ticker)
 	flags = SS_KEEP_TIMING
 	runlevels = RUNLEVEL_LOBBY | RUNLEVEL_SETUP | RUNLEVEL_GAME
 	offline_implications = "The game is no longer aware of when the round ends. Immediate server restart recommended."
-	cpu_display = SS_CPUDISPLAY_LOW
 
 	/// Time the world started, relative to world.time
 	var/round_start_time = 0
-	/// Time that the round started
-	var/time_game_started = 0
 	/// Default timeout for if world.Reboot() doesnt have a time specified
-	var/const/restart_timeout = 120 SECONDS
+	var/const/restart_timeout = 1200
 	/// Current status of the game. See code\__DEFINES\game.dm
 	var/current_state = GAME_STATE_STARTUP
 	/// Do we want to force-start as soon as we can
@@ -68,12 +65,9 @@ SUBSYSTEM_DEF(ticker)
 	var/toggle_pacifism = TRUE
 	/// Do we need to make ghosts visible after greentext
 	var/toogle_gv = TRUE
-	/// List of ckeys who had antag rolling issues flagged
-	var/list/flagged_antag_rollers = list()
 
 	var/list/randomtips = list()
 	var/list/memetips = list()
-
 
 /datum/controller/subsystem/ticker/Initialize()
 	login_music = pick(\
@@ -89,12 +83,14 @@ SUBSYSTEM_DEF(ticker)
 	randomtips = file2list("strings/tips.txt")
 	memetips = file2list("strings/sillytips.txt")
 
+	return ..()
+
 
 /datum/controller/subsystem/ticker/fire()
 	switch(current_state)
 		if(GAME_STATE_STARTUP)
 			// This is ran as soon as the MC starts firing, and should only run ONCE, unless startup fails
-			round_start_time = world.time + (config.pregame_timestart SECONDS)
+			round_start_time = world.time + (config.pregame_timestart * 10)
 			to_chat(world, "<B><span class='darkmblue'>Welcome to the pre-game lobby!</span></B>")
 			to_chat(world, "Please, setup your character and select ready. Game will start in [config.pregame_timestart] seconds")
 			current_state = GAME_STATE_PREGAME
@@ -146,7 +142,11 @@ SUBSYSTEM_DEF(ticker)
 
 			declare_completion()
 
-			addtimer(CALLBACK(src, PROC_REF(call_reboot)), 5 SECONDS)
+			spawn(50)
+				if(mode.station_was_nuked)
+					reboot_helper("Station destroyed by Nuclear Device.", "nuke")
+				else
+					reboot_helper("Round ended.", "proper completion")
 
 			if(!SSmapping.next_map) //Next map already selected by admin
 				var/list/all_maps = subtypesof(/datum/map)
@@ -170,14 +170,6 @@ SUBSYSTEM_DEF(ticker)
 						SSmapping.next_map = SSmapping.map_datum
 			if(SSmapping.next_map)
 				to_chat(world, "<B>The next map is - [SSmapping.next_map.name]!</B>")
-
-
-/datum/controller/subsystem/ticker/proc/call_reboot()
-	if(mode.station_was_nuked)
-		reboot_helper("Station destroyed by Nuclear Device.", "nuke")
-	else
-		reboot_helper("Round ended.", "proper completion")
-
 
 /datum/controller/subsystem/ticker/proc/setup()
 	cultdat = setupcult()
@@ -221,40 +213,15 @@ SUBSYSTEM_DEF(ticker)
 
 		return FALSE
 
-	// Randomise characters now. This avoids rare cases where a human is set as a changeling then they randomise to an IPC
-	for(var/mob/new_player/player in GLOB.player_list)
-		if(player.client.prefs.toggles2 & PREFTOGGLE_2_RANDOMSLOT)
-			player.client.prefs.load_random_character_slot(player.client)
-
-	// Lets check if people who ready should or shouldnt be
-	for(var/mob/new_player/P in GLOB.player_list)
-		// Not logged in
-		if(!P.client)
-			continue
-		// Not ready
-		if(!P.ready)
-			continue
-		// Not set to return if nothing available
-		if(P.client.prefs.alternate_option != RETURN_TO_LOBBY)
-			continue
-
-		var/has_antags = (length(P.client.prefs.be_special) > 0)
-		if(!P.client.prefs.check_any_job())
-			to_chat(P, "<span class='danger'>You have no jobs enabled, along with return to lobby if job is unavailable. This makes you ineligible for any round start role, please update your job preferences.</span>")
-			if(has_antags)
-				// We add these to a list so we can deal with them as a batch later
-				flagged_antag_rollers |= P.ckey
-
-			P.ready = FALSE
-
 	//Configure mode and assign player to special mode stuff
 	mode.pre_pre_setup()
-	var/can_continue = FALSE
+	var/can_continue
 	can_continue = mode.pre_setup() //Setup special modes
 	SSjobs.DivideOccupations() //Distribute jobs
 	if(!can_continue)
-		QDEL_NULL(mode)
+		qdel(mode)
 		to_chat(world, "<B>Error setting up [GLOB.master_mode].</B> Reverting to pre-game lobby.")
+		mode = null
 		current_state = GAME_STATE_PREGAME
 		force_start = FALSE
 		SSjobs.ResetOccupations()
@@ -335,7 +302,7 @@ SUBSYSTEM_DEF(ticker)
 
 	SSdiscord.send2discord_simple_noadmins("**\[Info]** Round has started")
 	auto_toggle_ooc(FALSE) // Turn it off
-	time_game_started = world.time
+	round_start_time = world.time
 
 	if(config.restrict_maint)
 		for(var/obj/machinery/door/airlock/maintenance/M in GLOB.airlocks)
@@ -368,9 +335,6 @@ SUBSYSTEM_DEF(ticker)
 	GLOB.test_runner.RunMap()
 	GLOB.test_runner.Run()
 	#endif
-
-	// Do this 10 second after roundstart because of roundstart lag, and make it more visible
-	addtimer(CALLBACK(src, PROC_REF(handle_antagfishing_reporting)), 10 SECONDS)
 	return TRUE
 
 
@@ -478,7 +442,6 @@ SUBSYSTEM_DEF(ticker)
 				player.create_character()
 				qdel(player)
 
-
 /datum/controller/subsystem/ticker/proc/equip_characters()
 	var/captainless = TRUE
 	for(var/mob/living/carbon/human/player in GLOB.player_list)
@@ -494,7 +457,6 @@ SUBSYSTEM_DEF(ticker)
 			if(!isnewplayer(M))
 				to_chat(M, "Captainship not forced on anyone.")
 
-
 /datum/controller/subsystem/ticker/proc/send_tip_of_the_round()
 	var/m
 	if(selected_tip)
@@ -507,7 +469,6 @@ SUBSYSTEM_DEF(ticker)
 
 	if(m)
 		to_chat(world, "<span class='purple'><b>Совет раунда: </b>[html_encode(m)]</span>")
-
 
 /datum/controller/subsystem/ticker/proc/declare_completion()
 	GLOB.nologevent = TRUE //end of round murder and shenanigans are legal; there's no need to jam up attack logs past this point.
@@ -606,10 +567,8 @@ SUBSYSTEM_DEF(ticker)
 
 	return TRUE
 
-
 /datum/controller/subsystem/ticker/proc/HasRoundStarted()
 	return current_state >= GAME_STATE_PLAYING
-
 
 /datum/controller/subsystem/ticker/proc/IsRoundInProgress()
 	return current_state == GAME_STATE_PLAYING
@@ -645,7 +604,6 @@ SUBSYSTEM_DEF(ticker)
 		GLOB.weighted_randomevent_locations[D] = D.viable_random_events.len
 		GLOB.weighted_mundaneevent_locations[D] = D.viable_mundane_events.len
 
-
 // Easy handler to make rebooting the world not a massive sleep in world/Reboot()
 /datum/controller/subsystem/ticker/proc/reboot_helper(reason, end_string, delay)
 	// Admins delayed round end. Just alert and dont bother with anything else.
@@ -680,25 +638,3 @@ SUBSYSTEM_DEF(ticker)
 	sleep(sound_length)
 
 	world.Reboot()
-
-
-// Timers invoke this async
-/datum/controller/subsystem/ticker/proc/handle_antagfishing_reporting()
-
-	// Dont need to do anything
-	if(!length(flagged_antag_rollers))
-		return
-
-	// Report on things
-	var/list/log_text = list("The following players attempted to roll antag with no jobs: ")
-
-	for(var/ckey in flagged_antag_rollers)
-		log_admin("[ckey] just got booted back to lobby with no jobs, but antags enabled.")
-		log_text += "<small>- <a href='?priv_msg=[ckey]'>[ckey]</a></small>"
-
-	log_text += "Investigation is advised."
-
-	message_admins(log_text.Join("<br>"))
-
-	flagged_antag_rollers.Cut()
-

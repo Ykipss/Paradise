@@ -56,20 +56,20 @@
 
 	loc = sanitize(copytext_char(loc, 1, MAX_MESSAGE_LEN))
 	if(!loc)
-		to_chat(src, span_warning("Must supply a location name"))
+		to_chat(src, "<span class='warning'>Must supply a location name</span>")
 		return
 
 	if(stored_locations.len >= max_locations)
-		to_chat(src, span_warning("Cannot store additional locations. Remove one first"))
+		to_chat(src, "<span class='warning'>Cannot store additional locations. Remove one first</span>")
 		return
 
 	if(loc in stored_locations)
-		to_chat(src, span_warning("There is already a stored location by this name"))
+		to_chat(src, "<span class='warning'>There is already a stored location by this name</span>")
 		return
 
 	var/L = get_turf(eyeobj)
 	if(InvalidTurf(get_turf(L)))
-		to_chat(src, span_warning("Unable to store this location"))
+		to_chat(src, "<span class='warning'>Unable to store this location</span>")
 		return
 
 	stored_locations[loc] = L
@@ -84,7 +84,7 @@
 	set desc = "Returns to the selected camera location"
 
 	if(!(loc in stored_locations))
-		to_chat(src, span_warning("Location [loc] not found"))
+		to_chat(src, "<span class='warning'>Location [loc] not found</span>")
 		return
 
 	var/L = stored_locations[loc]
@@ -96,7 +96,7 @@
 	set desc = "Deletes the selected camera location"
 
 	if(!(loc in stored_locations))
-		to_chat(src, span_warning("Location [loc] not found"))
+		to_chat(src, "<span class='warning'>Location [loc] not found</span>")
 		return
 
 	stored_locations.Remove(loc)
@@ -175,17 +175,17 @@
 	U.cameraFollow = target
 	U.tracking = 1
 
-	to_chat(U, span_notice("Attempting to track [target.get_visible_name()]..."))
+	to_chat(U, "<span class='notice'>Attempting to track [target.get_visible_name()]...</span>")
 	sleep(min(30, get_dist(target, U.eyeobj) / 4))
 	spawn(15) //give the AI a grace period to stop moving.
 		U.tracking = 0
 
 	if(!target || !target.can_track(usr))
-		to_chat(U, span_warning("Target is not near any active cameras."))
+		to_chat(U, "<span class='warning'>Target is not near any active cameras.</span>")
 		U.cameraFollow = null
 		return
 
-	to_chat(U, span_notice("Now tracking [target.get_visible_name()] on camera."))
+	to_chat(U, "<span class='notice'>Now tracking [target.get_visible_name()] on camera.</span>")
 
 	var/cameraticks = 0
 	spawn(0)
@@ -196,11 +196,11 @@
 			if(!target.can_track(usr))
 				U.tracking = 1
 				if(!cameraticks)
-					to_chat(U, span_warning("Target is not near any active cameras. Attempting to reacquire..."))
+					to_chat(U, "<span class='warning'>Target is not near any active cameras. Attempting to reacquire...</span>")
 				cameraticks++
 				if(cameraticks > 9)
 					U.cameraFollow = null
-					to_chat(U, span_warning("Unable to reacquire, cancelling track..."))
+					to_chat(U, "<span class='warning'>Unable to reacquire, cancelling track...</span>")
 					U.tracking = 0
 					return
 				else

@@ -6,7 +6,12 @@
 	anchored = 1
 	req_access = list()
 	max_integrity = 250
-	icon_state = "secure"
+	icon_state = "secure1"
+	icon_closed = "secure"
+	icon_locked = "secure1"
+	icon_opened = "secureopen"
+	icon_broken = "securebroken"
+	icon_off = "secureoff"
 	var/is_armory = FALSE
 	var/ignore_use = FALSE
 

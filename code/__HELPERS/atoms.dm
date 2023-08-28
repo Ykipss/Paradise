@@ -59,15 +59,11 @@
  * Proc that collects all atoms of passed `path` in our atom contents
  * and returns it in a list()
  */
-/atom/proc/collect_all_atoms_of_type(path, list/blacklist)
+/atom/proc/collect_all_atoms_of_type(path)
 	var/list/atoms = list()
-	if(src in blacklist)
-		return atoms
 	for(var/atom/check in contents)
-		if(check in blacklist)
-			continue
 		if(istype(check, path))
-			atoms |= check
+			atoms += check
 		if(length(check.contents))
-			atoms |= check.collect_all_atoms_of_type(path, blacklist)
+			check.collect_all_atoms_of_type(path)
 	return atoms

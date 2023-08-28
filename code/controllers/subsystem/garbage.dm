@@ -8,7 +8,6 @@ SUBSYSTEM_DEF(garbage)
 	runlevels = RUNLEVELS_DEFAULT | RUNLEVEL_LOBBY
 	init_order = INIT_ORDER_GARBAGE // Why does this have an init order if it has SS_NO_INIT?
 	offline_implications = "Garbage statistics collection is no longer functional, not a big deal actually. No futher actions required."
-	cpu_display = SS_CPUDISPLAY_HIGH
 
 	//Stat tracking
 	var/delslasttick = 0			// number of del()'s we've done this tick
@@ -48,15 +47,13 @@ SUBSYSTEM_DEF(garbage)
 		fail_counts[i] = 0
 #endif
 
-
-/datum/controller/subsystem/garbage/get_stat_details()
-	var/list/msg = list()
+/datum/controller/subsystem/garbage/stat_entry(msg)
 	#ifndef PASSIVE_GC
 	var/list/counts = list()
 	for(var/list/L in queues)
 		counts += length(L)
 	msg += "Queue:[counts.Join(",")] | Del's:[delslasttick] | Soft:[gcedlasttick] |"
-	msg += "GCR:"
+	msg += "GR:"
 	if(!(delslasttick + gcedlasttick))
 		msg += "n/a|"
 	else
@@ -66,21 +63,20 @@ SUBSYSTEM_DEF(garbage)
 	if(!(totaldels + totalgcs))
 		msg += "n/a|"
 	else
-		msg += "TGCR:[round((totalgcs / (totaldels + totalgcs)) * 100, 0.01)]% |"
+		msg += "TGR:[round((totalgcs / (totaldels + totalgcs)) * 100, 0.01)]% |"
 	msg += " Pass:[pass_counts.Join(",")]"
 	msg += " | Fail:[fail_counts.Join(",")]"
 	#else
 	msg += "del's:[delslasttick] | Total del's:[totaldels]"
 	#endif
-	return msg.Join("")
-
+	..(msg)
 
 /datum/controller/subsystem/garbage/Shutdown()
 	//Adds the del() log to the qdel log file
 	var/list/dellog = list()
 
 	//sort by how long it's wasted hard deleting
-	sortTim(items, cmp = /proc/cmp_qdel_item_time, associative = TRUE)
+	sortTim(items, cmp=/proc/cmp_qdel_item_time, associative = TRUE)
 	for(var/path in items)
 		var/datum/qdel_item/I = items[path]
 		dellog += "Path: [path]"

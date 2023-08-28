@@ -14,7 +14,6 @@ export const BluespaceRiftServer = (props, context) => {
   const {
     emagged,
     pointsPerProbe,
-    cooldown,
     goals,
     servers,
     scanners,
@@ -30,10 +29,9 @@ export const BluespaceRiftServer = (props, context) => {
       rewardGiven,
     } = goalData;
     const percentage = Math.floor((researchPoints / targetResearchPoints) * 100);
-    const probesLeft = (pointsPerProbe > 0) ? Math.floor(probePoints / pointsPerProbe) : 0;
+    const probesLeft = Math.floor(probePoints / pointsPerProbe);
     const pointsPerProbeMessage = emagged ? ("@?%%!№@" + pointsPerProbe) : pointsPerProbe;
     const enoughProbePoints = probePoints >= pointsPerProbe;
-    const displayed_cooldown = cooldown - (cooldown % 5) + ((cooldown % 5) > 0 ? 5 : 0);
     return (
       <Section title="Исследование Разлома">
         <Box
@@ -58,8 +56,8 @@ export const BluespaceRiftServer = (props, context) => {
           <Button
             icon="atom"
             tooltip={"Для генерации одного зондирующего импульса нужно собрать " + pointsPerProbeMessage + " данных."}
-            content={(cooldown > 0) ? ("Подготовка " + displayed_cooldown + " секунд") : ("Зондировать (" + probesLeft + ")")}
-            disabled={!enoughProbePoints || (cooldown > 0)}
+            content={"Зондировать (" + probesLeft + ")"}
+            disabled={!enoughProbePoints}
             onClick={() => act('probe', {
               rift_id: riftId,
             })}
@@ -69,7 +67,7 @@ export const BluespaceRiftServer = (props, context) => {
           <Button
             fluid
             textAlign="center"
-            content={rewardGiven ? "Результат получен" : "Получить результат исследований"}
+            content="Получить результат исследований"
             disabled={rewardGiven || (percentage < 100)}
             onClick={() => act('reward', {
               rift_id: riftId,
@@ -129,15 +127,13 @@ export const BluespaceRiftServer = (props, context) => {
     const statusText = getStatusText();
   
     return (
-      <LabeledList.Item
-        label={scannerName}
-        py={0}>
+      <LabeledList.Item label={scannerName}>
         {switching ? (
           <Icon 
             name="circle-notch"
             color="silver"
             spin
-            ml={1.85} mr={1.79} my={0.84}
+            ml={1.85} mr={1.79} my={0.83}
           />
         ) : (
           canSwitch ? (
@@ -153,7 +149,7 @@ export const BluespaceRiftServer = (props, context) => {
             <Icon 
               name="power-off"
               color={scanStatusTxt === "OFF" ? "bad" : "good"}
-              ml={1.85} mr={1.79} my={0.84}
+              ml={1.85} mr={1.79}
             />
           )
         )}

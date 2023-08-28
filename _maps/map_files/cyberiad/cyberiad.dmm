@@ -48565,7 +48565,9 @@
 /area/blueshield)
 "cqL" = (
 /obj/structure/closet{
-	icon_state = "cabinet"
+	icon_closed = "cabinet_closed";
+	icon_opened = "cabinet_open";
+	icon_state = "cabinet_closed"
 	},
 /obj/item/reagent_containers/food/drinks/bottle/whiskey,
 /obj/item/reagent_containers/food/drinks/drinkingglass,
@@ -76884,7 +76886,8 @@
 "lhW" = (
 /obj/structure/closet{
 	desc = "It's a storage unit for foodservice garments.";
-	custom_door_overlay = "black";
+	icon_closed = "black";
+	icon_state = "black";
 	name = "chef's closet"
 	},
 /obj/item/storage/belt/chef,
@@ -82707,6 +82710,7 @@
 	},
 /obj/structure/closet/secure_closet/security{
 	broken = 1;
+	icon_state = "secbrokenopen";
 	initialized = 1;
 	locked = 0
 	},

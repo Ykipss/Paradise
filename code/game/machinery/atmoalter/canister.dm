@@ -324,7 +324,7 @@ update_flag
 					else
 						name = "canister"
 				else
-					to_chat(usr, span_warning("As you attempted to rename it the pressure rose!"))
+					to_chat(usr, "<span class='warning'>As you attempted to rename it the pressure rose!</span>")
 					. = FALSE
 		if("pressure")
 			var/pressure = params["pressure"]
@@ -481,6 +481,6 @@ update_flag
 		return
 	WELDER_ATTEMPT_SLICING_MESSAGE
 	if(I.use_tool(src, user, 50, volume = I.tool_volume))
-		to_chat(user, span_notice("You salvage whats left of [src]!"))
+		to_chat(user, "<span class='notice'>You salvage whats left of [src]!</span>")
 		new /obj/item/stack/sheet/metal(drop_location(), 3)
 		qdel(src)

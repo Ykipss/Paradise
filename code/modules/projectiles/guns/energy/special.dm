@@ -330,15 +330,19 @@
 	slot_flags = SLOT_BACK
 	cell_type = /obj/item/stock_parts/cell/bsg
 	shaded_charge = TRUE
-	var/has_core = FALSE
+	var/obj/item/assembly/signaler/anomaly/flux/core = null
 	var/has_bluespace_crystal = FALSE
 	var/admin_model = FALSE //For the admin gun, prevents crystal shattering, so anyone can use it, and you dont need to carry backup crystals.
 
+/obj/item/gun/energy/bsg/Destroy()
+	QDEL_NULL(core)
+	return ..()
+
 /obj/item/gun/energy/bsg/examine(mob/user)
 	. = ..()
-	if(has_core && has_bluespace_crystal)
+	if(core && has_bluespace_crystal)
 		. += "<span class='notice'>[src] полностью рабочая!</span>"
-	else if(has_core)
+	else if(core)
 		. += "<span class='warning'>Аномалия потока вставлена, но не хватает БС кристалла.</span>"
 	else if(has_bluespace_crystal)
 		. += "<span class='warning'>Имеет инкрустированный БС кристалл, но нет установленного ядра аномалии потока.</span>"
@@ -360,12 +364,13 @@
 		return
 
 	if(istype(O, /obj/item/assembly/signaler/anomaly/flux))
-		if(has_core)
+		if(core)
 			to_chat(user, "<span class='notice'>[src] уже имеет [O]!</span>")
 			return
 		to_chat(user, "<span class='notice'>Вы вставили [O] в [src], и [src] начинает разогреваться.</span>")
-		has_core = TRUE
-		qdel(O)
+		O.forceMove(src)
+		core = O
+		QDEL_NULL(O)
 		update_icon()
 	else
 		return ..()
@@ -374,14 +379,14 @@
 	if(!has_bluespace_crystal)
 		to_chat(user, "<span class='warning'>[src] не имеет БС кристалла для генерации заряда!</span>")
 		return
-	if(!has_core)
+	if(!core)
 		to_chat(user, "<span class='warning'>[src] не имеет аномалии потока для генерации заряда!</span>")
 		return
 	return ..()
 
 /obj/item/gun/energy/bsg/update_icon()
 	. = ..()
-	if(has_core)
+	if(core)
 		if(has_bluespace_crystal)
 			icon_state = "bsg_finished"
 		else
@@ -411,7 +416,7 @@
 
 /obj/item/gun/energy/bsg/prebuilt/Initialize(mapload)
 	. = ..()
-	has_core = TRUE
+	core = new /obj/item/assembly/signaler/anomaly/flux
 	update_icon()
 
 /obj/item/gun/energy/bsg/prebuilt/admin

@@ -122,13 +122,21 @@ GLOBAL_LIST_EMPTY(GPS_list)
 
 /obj/item/gps/MouseDrop(atom/over)
 	. = ..()
-
-	var/mob/user = usr
-	if(!ishuman(user) || !Adjacent(user) || user.incapacitated())
+	if(!.)
 		return FALSE
 
-	attack_self(user)
-	return TRUE
+	var/mob/user = usr
+	if(istype(over, /obj/screen))
+		return FALSE
+
+	if(user.incapacitated() || !ishuman(user))
+		return FALSE
+
+	if(over == user)
+		attack_self(user)
+		return TRUE
+
+	return FALSE
 
 
 /obj/item/gps/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.inventory_state)

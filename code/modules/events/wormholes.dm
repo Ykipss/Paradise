@@ -73,7 +73,7 @@
 		return FALSE
 
 	var/turf/target
-	if(length(linked_portals))
+	if(linked_portals)
 		var/obj/effect/portal/P = pick(linked_portals)
 		if(P && isturf(P.loc))
 			target = P.loc

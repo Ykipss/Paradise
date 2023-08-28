@@ -5,7 +5,6 @@ SUBSYSTEM_DEF(nightshift)
 	wait = 600
 	flags = SS_NO_TICK_CHECK
 	offline_implications = "The game will no longer shift between day and night lighting. No immediate action is needed."
-	cpu_display = SS_CPUDISPLAY_LOW
 
 	var/nightshift_active = FALSE
 	var/nightshift_start_time = 702000		//7:30 PM, station time
@@ -14,23 +13,20 @@ SUBSYSTEM_DEF(nightshift)
 
 	var/high_security_mode = FALSE
 
-
 /datum/controller/subsystem/nightshift/Initialize()
 	if(!config.enable_night_shifts)
-		flags |= SS_NO_FIRE
+		can_fire = FALSE
 	if(config.randomize_shift_time)
 		GLOB.gametime_offset = rand(0, 23) HOURS
-
+	return ..()
 
 /datum/controller/subsystem/nightshift/fire(resumed = FALSE)
 	if(world.time - SSticker.round_start_time < nightshift_first_check)
 		return
 	check_nightshift()
 
-
 /datum/controller/subsystem/nightshift/proc/announce(message)
-	GLOB.priority_announcement.Announce(message, new_sound = 'sound/misc/announce_dig.ogg', new_title = "Автоматическое оповещение: Освещение.")
-
+	GLOB.priority_announcement.Announce(message, new_sound = 'sound/misc/announce_dig.ogg', new_title = "Автоматическое оповещение: Освещ+ение.")
 
 /datum/controller/subsystem/nightshift/proc/check_nightshift(check_canfire=FALSE)
 	if(check_canfire && !can_fire)
@@ -51,7 +47,6 @@ SUBSYSTEM_DEF(nightshift)
 		night_time = FALSE
 	if(nightshift_active != night_time)
 		update_nightshift(night_time, announcing)
-
 
 /datum/controller/subsystem/nightshift/proc/update_nightshift(active, announce = TRUE)
 	nightshift_active = active

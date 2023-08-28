@@ -21,9 +21,6 @@
 		add_random_traits()
 	add_random_plant_type(35)
 
-/obj/item/seeds/random/transform_into_random()
-	return
-
 /obj/item/seeds/random/labelled
 	name = "pack of exotic strange seeds"
 

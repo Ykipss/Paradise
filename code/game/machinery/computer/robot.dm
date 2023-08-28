@@ -72,12 +72,12 @@
 	if(isAI(user))
 		if(R.connected_ai != user)
 			if(telluserwhy)
-				to_chat(user, span_warning("AIs can only control cyborgs which are linked to them."))
+				to_chat(user, "<span class='warning'>AIs can only control cyborgs which are linked to them.</span>")
 			return FALSE
 	if(isrobot(user))
 		if(R != user)
 			if(telluserwhy)
-				to_chat(user, span_warning("Cyborgs cannot control other cyborgs."))
+				to_chat(user, "<span class='warning'>Cyborgs cannot control other cyborgs.</span>")
 			return FALSE
 	return TRUE
 
@@ -161,27 +161,27 @@
 		return
 	. = FALSE
 	if(!is_authenticated(usr) || (GLOB.disable_robotics_consoles && iscarbon(usr)))
-		to_chat(usr, span_warning("Access denied."))
+		to_chat(usr, "<span class='warning'>Access denied.</span>")
 		playsound(src, pick('sound/machines/button.ogg', 'sound/machines/button_alternate.ogg', 'sound/machines/button_meloboom.ogg'), 20)
 		return
 	switch(action)
 		if("arm") // Arms the emergency self-destruct system
 			if(issilicon(usr))
-				to_chat(usr, span_danger("Access Denied (silicon detected)"))
+				to_chat(usr, "<span class='danger'>Access Denied (silicon detected)</span>")
 				playsound(src, pick('sound/machines/button.ogg', 'sound/machines/button_alternate.ogg', 'sound/machines/button_meloboom.ogg'), 20)
 				return
 			safety = !safety
-			to_chat(usr, span_notice("You [safety ? "disarm" : "arm"] the emergency self destruct."))
+			to_chat(usr, "<span class='notice'>You [safety ? "disarm" : "arm"] the emergency self destruct.</span>")
 			. = TRUE
 		if("nuke") // Destroys all accessible cyborgs if safety is disabled
 			if(issilicon(usr))
-				to_chat(usr, span_danger("Access Denied (silicon detected)"))
+				to_chat(usr, "<span class='danger'>Access Denied (silicon detected)</span>")
 				playsound(src, pick('sound/machines/button.ogg', 'sound/machines/button_alternate.ogg', 'sound/machines/button_meloboom.ogg'), 20)
 				return
 			if(safety)
-				to_chat(usr, span_danger("Self-destruct aborted - safety active"))
+				to_chat(usr, "<span class='danger'>Self-destruct aborted - safety active</span>")
 				return
-			message_admins(span_notice("[ADMIN_LOOKUPFLW(usr)] detonated all cyborgs!"))
+			message_admins("<span class='notice'>[ADMIN_LOOKUPFLW(usr)] detonated all cyborgs!</span>")
 			add_game_logs("detonated all cyborgs!", usr)
 			for(var/mob/living/silicon/robot/R in GLOB.mob_list)
 				if(isdrone(R))
@@ -189,7 +189,7 @@
 				// Ignore antagonistic cyborgs
 				if(R.scrambledcodes)
 					continue
-				to_chat(R, span_danger("Self-destruct command received."))
+				to_chat(R, "<span class='danger'>Self-destruct command received.</span>")
 				if(R.connected_ai)
 					to_chat(R.connected_ai, "<br><br><span class='alert'>ALERT - Cyborg detonation detected: [R.name]</span><br>")
 				R.self_destruct()
@@ -199,32 +199,32 @@
 			if(!can_control(usr, R, TRUE))
 				return
 			if(R.mind && R.mind.special_role && R.emagged)
-				to_chat(R, span_userdanger("Extreme danger!  Termination codes detected.  Scrambling security codes and automatic AI unlink triggered."))
+				to_chat(R, "<span class='userdanger'>Extreme danger!  Termination codes detected.  Scrambling security codes and automatic AI unlink triggered.</span>")
 				R.ResetSecurityCodes()
 				. = TRUE
 				return
 			var/turf/T = get_turf(R)
-			message_admins(span_notice("[ADMIN_LOOKUPFLW(usr)] detonated [key_name_admin(R)] ([ADMIN_COORDJMP(T)])!"))
+			message_admins("<span class='notice'>[ADMIN_LOOKUPFLW(usr)] detonated [key_name_admin(R)] ([ADMIN_COORDJMP(T)])!</span>")
 			add_game_logs("detonated [key_name_log(R)]!", usr)
-			to_chat(R, span_danger("Self-destruct command received."))
+			to_chat(R, "<span class='danger'>Self-destruct command received.</span>")
 			if(R.connected_ai)
 				to_chat(R.connected_ai, "<br><br><span class='alert'>ALERT - Cyborg detonation detected: [R.name]</span><br>")
 			R.self_destruct()
 			. = TRUE
 		if("stopbot") // lock or unlock the borg
 			if(isrobot(usr))
-				to_chat(usr, span_danger("Access Denied."))
+				to_chat(usr, "<span class='danger'>Access Denied.</span>")
 				playsound(src, pick('sound/machines/button.ogg', 'sound/machines/button_alternate.ogg', 'sound/machines/button_meloboom.ogg'), 20)
 				return
 			var/mob/living/silicon/robot/R = locateUID(params["uid"])
 			if(!can_control(usr, R, TRUE))
 				return
-			message_admins(span_notice("[ADMIN_LOOKUPFLW(usr)] [!R.lockcharge ? "locked down" : "released"] [ADMIN_LOOKUPFLW(R)]!"))
+			message_admins("<span class='notice'>[ADMIN_LOOKUPFLW(usr)] [!R.lockcharge ? "locked down" : "released"] [ADMIN_LOOKUPFLW(R)]!</span>")
 			add_game_logs("[!R.lockcharge ? "locked down" : "released"] [key_name_log(R)]!", usr)
 			R.SetLockdown(!R.lockcharge)
-			to_chat(R, "[!R.lockcharge ? span_notice("Your lockdown has been lifted!") : span_alert("You have been locked down!")]")
+			to_chat(R, "[!R.lockcharge ? "<span class='notice'>Your lockdown has been lifted!" : "<span class='alert'>You have been locked down!"]</span>")
 			if(R.connected_ai)
-				to_chat(R.connected_ai, "[!R.lockcharge ? span_notice("NOTICE - Cyborg lockdown lifted") : span_alert("ALERT - Cyborg lockdown detected")]: <a href='?src=[R.connected_ai.UID()];track=[html_encode(R.name)]'>[R.name]</a></span><br>")
+				to_chat(R.connected_ai, "[!R.lockcharge ? "<span class='notice'>NOTICE - Cyborg lockdown lifted</span>" : "<span class='alert'>ALERT - Cyborg lockdown detected</span>"]: <a href='?src=[R.connected_ai.UID()];track=[html_encode(R.name)]'>[R.name]</a></span><br>")
 			. = TRUE
 		if("hackbot") // AIs hacking/emagging a borg
 			var/mob/living/silicon/robot/R = locateUID(params["uid"])
@@ -234,7 +234,7 @@
 			if(choice != "Yes")
 				return
 			add_game_logs("emagged [key_name_log(R)] using robotic console!", usr)
-			message_admins(span_notice("[ADMIN_LOOKUPFLW(usr)] emagged [key_name_admin(R)] using robotic console!"))
+			message_admins("<span class='notice'>[ADMIN_LOOKUPFLW(usr)] emagged [key_name_admin(R)] using robotic console!</span>")
 			R.emagged = TRUE
-			to_chat(R, span_notice("Failsafe protocols overriden. New tools available."))
+			to_chat(R, "<span class='notice'>Failsafe protocols overriden. New tools available.</span>")
 			. = TRUE

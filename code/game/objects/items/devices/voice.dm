@@ -1,6 +1,6 @@
 /obj/item/voice_changer
 	name = "voice changer"
-	desc = "A voice mimicking module."
+	desc = "A voice scrambling module."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "voice_changer_off"
 
@@ -81,9 +81,3 @@
 		if(target.name == chosen_voice)
 			tts_voice = target.dna.tts_seed_dna
 			return
-
-/obj/item/voice_changer/voice_modulator
-	name = "voice modulator"
-	desc = "A voice scrambling module."
-	voice = "Unknown"
-	actions_types = list(/datum/action/item_action/voice_changer/toggle)

@@ -433,14 +433,13 @@
 						M.emote("scream")
 					g_vamp.nullified = max(5, g_vamp.nullified + 2)
 
-	if(ishuman(M) && !M.mind?.isholy)
-		switch(current_cycle)
-			if(0 to 24)
-				M.adjustBrainLoss(0.5, FALSE)
-			if(25 to 49)
-				M.adjustBrainLoss(1, FALSE)
-			if(50 to INFINITY)
-				M.adjustBrainLoss(2, FALSE)
+	if(ishuman(M) && !(isvampire(M) || iscultist(M) || isclocker(M) || isvampirethrall(M) || (M.mind?.isholy)))
+		if(volume <= 10)
+			M.adjustBrainLoss(1, FALSE)
+		else if(volume <= 20 && volume > 10)
+			M.adjustBrainLoss(2, FALSE)
+		else
+			M.adjustBrainLoss(3, FALSE)
 
 	return ..() | update_flags
 

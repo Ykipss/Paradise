@@ -1,6 +1,20 @@
 /obj/structure/closet/secure_closet/freezer
 	desc = "It's a card-locked refrigerative storage unit. This one is lead-lined."
 
+/obj/structure/closet/secure_closet/freezer/update_icon()
+	if(broken)
+		icon_state = icon_broken
+	else
+		if(!opened)
+			if(locked)
+				icon_state = icon_locked
+			else
+				icon_state = icon_closed
+			if(welded)
+				overlays += "welded"
+		else
+			icon_state = icon_opened
+
 /obj/structure/closet/secure_closet/freezer/ex_act(var/severity)
 	// IF INDIANA JONES CAN DO IT SO CAN YOU
 
@@ -39,7 +53,12 @@
 
 /obj/structure/closet/secure_closet/freezer/meat
 	name = "meat fridge"
-	icon_state = "fridge"
+	icon_state = "fridge1"
+	icon_closed = "fridge"
+	icon_locked = "fridge1"
+	icon_opened = "fridgeopen"
+	icon_broken = "fridgebroken"
+	icon_off = "fridge1"
 
 /obj/structure/closet/secure_closet/freezer/meat/populate_contents()
 	for(var/i in 1 to 4)
@@ -51,7 +70,12 @@
 
 /obj/structure/closet/secure_closet/freezer/fridge
 	name = "refrigerator"
-	icon_state = "fridge"
+	icon_state = "fridge1"
+	icon_closed = "fridge"
+	icon_locked = "fridge1"
+	icon_opened = "fridgeopen"
+	icon_broken = "fridgebroken"
+	icon_off = "fridge1"
 
 /obj/structure/closet/secure_closet/freezer/fridge/populate_contents()
 	for(var/i in 1 to 5)
@@ -66,7 +90,12 @@
 
 /obj/structure/closet/secure_closet/freezer/money
 	name = "freezer"
-	icon_state = "fridge"
+	icon_state = "fridge1"
+	icon_closed = "fridge"
+	icon_locked = "fridge1"
+	icon_opened = "fridgeopen"
+	icon_broken = "fridgebroken"
+	icon_off = "fridge1"
 	req_access = list(ACCESS_HEADS_VAULT)
 
 /obj/structure/closet/secure_closet/freezer/money/populate_contents()

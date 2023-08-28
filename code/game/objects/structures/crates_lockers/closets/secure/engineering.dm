@@ -1,7 +1,12 @@
 /obj/structure/closet/secure_closet/engineering_chief
 	name = "chief engineer's locker"
 	req_access = list(ACCESS_CE)
-	icon_state = "ce"
+	icon_state = "securece1"
+	icon_closed = "securece"
+	icon_locked = "securece1"
+	icon_opened = "secureceopen"
+	icon_broken = "securecebroken"
+	icon_off = "secureceoff"
 
 /obj/structure/closet/secure_closet/engineering_chief/populate_contents()
 	if(prob(50))
@@ -33,8 +38,12 @@
 /obj/structure/closet/secure_closet/engineering_electrical
 	name = "electrical supplies locker"
 	req_access = list(ACCESS_ENGINE_EQUIP)
-	icon_state = "eng"
-	custom_door_overlay = "engelec"
+	icon_state = "secureengelec1"
+	icon_closed = "secureengelec"
+	icon_locked = "secureengelec1"
+	icon_opened = "toolclosetopen"
+	icon_broken = "secureengelecbroken"
+	icon_off = "secureengelecoff"
 
 /obj/structure/closet/secure_closet/engineering_electrical/populate_contents()
 	new /obj/item/clothing/gloves/color/yellow(src)
@@ -54,8 +63,12 @@
 /obj/structure/closet/secure_closet/engineering_welding
 	name = "welding supplies locker"
 	req_access = list(ACCESS_ENGINE_EQUIP)
-	icon_state = "eng"
-	custom_door_overlay = "engweld"
+	icon_state = "secureengweld1"
+	icon_closed = "secureengweld"
+	icon_locked = "secureengweld1"
+	icon_opened = "toolclosetopen"
+	icon_broken = "secureengweldbroken"
+	icon_off = "secureengweldoff"
 
 /obj/structure/closet/secure_closet/engineering_welding/populate_contents()
 	new /obj/item/clothing/head/welding(src)
@@ -69,7 +82,12 @@
 /obj/structure/closet/secure_closet/engineering_personal
 	name = "engineer's locker"
 	req_access = list(ACCESS_ENGINE_EQUIP)
-	icon_state = "eng"
+	icon_state = "secureeng1"
+	icon_closed = "secureeng"
+	icon_locked = "secureeng1"
+	icon_opened = "secureengopen"
+	icon_broken = "secureengbroken"
+	icon_off = "secureengoff"
 
 /obj/structure/closet/secure_closet/engineering_personal/populate_contents()
 	if(prob(50))
@@ -91,7 +109,12 @@
 /obj/structure/closet/secure_closet/atmos_personal
 	name = "technician's locker"
 	req_access = list(ACCESS_ATMOSPHERICS)
-	icon_state = "atm"
+	icon_state = "secureatm1"
+	icon_closed = "secureatm"
+	icon_locked = "secureatm1"
+	icon_opened = "secureatmopen"
+	icon_broken = "secureatmbroken"
+	icon_off = "secureatmoff"
 
 /obj/structure/closet/secure_closet/atmos_personal/populate_contents()
 	new /obj/item/radio/headset/headset_eng(src)

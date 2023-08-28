@@ -90,19 +90,19 @@
 /obj/machinery/meter/examine(mob/user)
 	. = ..()
 	if(get_dist(user, src) > 3 && !(istype(user, /mob/living/silicon/ai) || istype(user, /mob/dead)))
-		. += span_boldnotice("You are too far away to read it.")
+		. += "<span class='boldnotice'>You are too far away to read it.</span>"
 
 	else if(stat & (NOPOWER|BROKEN))
-		. += span_danger("The display is off.")
+		. += "<span class='danger'>The display is off.</span>"
 
 	else if(target)
 		var/datum/gas_mixture/environment = target.return_air()
 		if(environment)
-			. += span_notice("The pressure gauge reads [round(environment.return_pressure(), 0.01)] kPa; [round(environment.temperature,0.01)]K ([round(environment.temperature-T0C,0.01)]&deg;C).")
+			. += "<span class='notice'>The pressure gauge reads [round(environment.return_pressure(), 0.01)] kPa; [round(environment.temperature,0.01)]K ([round(environment.temperature-T0C,0.01)]&deg;C).</span>"
 		else
-			. += span_warning("The sensor error light is blinking.")
+			. += "<span class='warning'>The sensor error light is blinking.</span>"
 	else
-		. += span_warning("The connect error light is blinking.")
+		. += "<span class='warning'>The connect error light is blinking.</span>"
 
 /obj/machinery/meter/Click()
 	if(istype(usr, /mob/living/silicon/ai)) // ghosts can call ..() for examine
@@ -114,11 +114,11 @@
 /obj/machinery/meter/wrench_act(mob/user, obj/item/I)
 	. = TRUE
 	playsound(loc, I.usesound, 50, 1)
-	to_chat(user, span_notice("You begin to unfasten [src]..."))
+	to_chat(user, "<span class='notice'>You begin to unfasten [src]...</span>")
 	if(do_after(user, 40 * I.toolspeed * gettoolspeedmod(user), target = src))
 		user.visible_message( \
 			"[user] unfastens [src].", \
-			span_notice("You have unfastened [src]."), \
+			"<span class='notice'>You have unfastened [src].</span>", \
 			"You hear ratchet.")
 		deconstruct(TRUE)
 

@@ -5,14 +5,13 @@ SUBSYSTEM_DEF(statistics)
 	offline_implications = "Player count and admin count statistics will no longer be logged to the database. No immediate action is needed."
 
 
-/datum/controller/subsystem/statistics/Initialize()
+/datum/controller/subsystem/statistics/Initialize(start_timeofday)
 	if(!config.sql_enabled)
 		flags |= SS_NO_FIRE // Disable firing if SQL is disabled
-
+	return ..()
 
 /datum/controller/subsystem/statistics/fire(resumed = 0)
 	sql_poll_players()
-
 
 /datum/controller/subsystem/statistics/proc/sql_poll_players()
 	if(!SSdbcore.IsConnected())
