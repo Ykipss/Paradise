@@ -30,6 +30,7 @@
 	var/storage_capacity = 30 //This is so that someone can't pack hundreds of items in a locker/crate then open it in a populated area to crash clients.
 	var/material_drop = /obj/item/stack/sheet/metal
 	var/material_drop_amount = 2
+	var/lockable = null
 
 // Please dont override this unless you absolutely have to
 /obj/structure/closet/Initialize(mapload)
@@ -46,6 +47,18 @@
 
 // Override this to spawn your things in. This lets you use probabilities, and also doesnt cause init overrides
 /obj/structure/closet/proc/populate_contents()
+	return
+
+/obj/structure/closet/attackby(obj/item/I, mob/user, params)
+	if(lockable)
+		to_chat(user, "<span class='notice'> Argh! Someone else has put there a lock! </span>")
+		return
+	if(istype(I, /obj/item/crate_lock) && lockable)
+		if(do_after(user, 30, target = src))
+			add_fingerprint(user)
+			user.visible_message("<span class='notice'>[user] rigs [I] to [src].</span>", "<span class='notice'>You rig [I] to [src].</span>")
+			overlays += "[I]"
+			lockable = 1
 	return
 
 // This is called on Initialize to add contents on the tile
@@ -170,41 +183,6 @@
 	if(!broken && !(flags & NODECONSTRUCT))
 		bust_open()
 
-/obj/structure/closet/attackby(obj/item/W, mob/user, params)
-	if(istype(W, /obj/item/rcs) && !opened)
-		var/obj/item/rcs/E = W
-		if(E.try_send_container(user, src))
-			add_fingerprint(user)
-		return
-
-	if(opened)
-		if(istype(W, /obj/item/grab))
-			var/obj/item/grab/G = W
-			if(large)
-				MouseDrop_T(G.affecting, user)      //act like they were dragged onto the closet
-			else
-				to_chat(user, "<span class='notice'>[src] is too small to stuff [G.affecting] into!</span>")
-		if(istype(W, /obj/item/tk_grab))
-			return FALSE
-		if(user.a_intent != INTENT_HELP) // Stops you from putting your baton in the closet on accident
-			return
-		if(isrobot(user))
-			return
-		if(!user.transfer_item_to_loc(W, src.loc)) //couldn't drop the item
-			to_chat(user, "<span class='notice'>\The [W] is stuck to your hand, you cannot put it in \the [src]!</span>")
-			return
-		if(W)
-			add_fingerprint(user)
-			return TRUE // It's resolved. No afterattack needed. Stops you from emagging lockers when putting in an emag
-	else if(can_be_emaged && (istype(W, /obj/item/card/emag) || istype(W, /obj/item/melee/energy/blade) && !broken))
-		add_fingerprint(user)
-		emag_act(user)
-	else if(istype(W, /obj/item/stack/packageWrap))
-		return
-	else if(user.a_intent != INTENT_HARM)
-		closed_item_click(user)
-	else
-		return ..()
 
 // What happens when the closet is attacked by a random item not on harm mode
 /obj/structure/closet/proc/closed_item_click(mob/user)
