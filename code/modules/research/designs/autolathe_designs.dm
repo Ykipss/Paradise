@@ -247,6 +247,7 @@
 
 /datum/design/rglass
 	name = "Reinforced Glass"
+	desc = "Metal + Glass"
 	id = "rglass"
 	build_type = AUTOLATHE | SMELTER
 	materials = list(MAT_METAL = 1000, MAT_GLASS = MINERAL_MATERIAL_AMOUNT)
@@ -846,14 +847,6 @@
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 4000)
 	build_path = /obj/item/ammo_casing/shotgun/incendiary
-	category = list("hacked", "Security")
-
-/datum/design/speedloader_univ
-	name = "Speedloader"
-	id = "speedloader_univ"
-	build_type = AUTOLATHE
-	materials = list(MAT_METAL = 500)
-	build_path = /obj/item/ammo_box/shotgun/universal
 	category = list("hacked", "Security")
 
 /datum/design/riot_dart
